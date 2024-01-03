@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useGuess } from '@/hooks/useGuess'
 import { useHints } from '@/hooks/useHints'
 import HintLine from './HintLine'
@@ -22,6 +22,7 @@ const getClueLabels = (idx:number, clueList:Clue[]):string => {
 export default function Word({word, clueList}: WordProps){
     const { wordParts, currIndex, setCurrIndex, handleKeyUp, gameOver } = useGuess(word)
     const { gameHints, showHint } = useHints(clueList)
+    
 
     useEffect(() => {
         window.addEventListener('keyup', handleKeyUp)
@@ -39,12 +40,13 @@ export default function Word({word, clueList}: WordProps){
                 </div>
                 {gameOver && <h1 className='text-green-600 text-3xl bold'>COMPLETE!</h1>}
             </div>
-            <div className='flex w-full justify-center mb-6'>
+            <div className='flex w-full lg:justify-center mb-6'>
                 {wordParts.map((x, i) => (
                     <div key={i} className='flex flex-col items-center'>
-                    <div onClick={() => setCurrIndex(i)} style={{border: i === currIndex ? "2px solid blue" : "1px solid"}} className='w-8 aspect-square relative m-1 cursor-pointer flex justify-center items-center'>
+                    <div onClick={() => setCurrIndex(i)} style={{border: i === currIndex ? "2px solid blue" : "1px solid"}} className='w-5 lg:w-8 aspect-square relative m-1 cursor-pointer flex justify-center items-center'>
                         <h2>{x}</h2>
                     </div>
+                    <input className='invisible' type='hidden' />
                     <div>{getClueLabels(i,clueList)}</div>
                     </div>
 
